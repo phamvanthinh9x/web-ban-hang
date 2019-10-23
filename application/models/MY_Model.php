@@ -154,6 +154,22 @@ class MY_Model extends CI_Model {
 	}
 	
 
+    	function get_info_huyen($ma,$id,$select,$data)
+	{
+
+	    $this->db->select($select);
+	    $where=array($ma=>$id);
+		$this->db->where($where);
+		$query = $this->db->get($data);
+		if ($query->num_rows())
+		{
+			return $query->result();
+		}
+		
+		return FALSE;
+	}
+
+
 
 	function get_info_simple($field= '')
 	{

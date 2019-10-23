@@ -205,7 +205,7 @@
      </table>
        </section>
 <!-- thong tin người mua  -->
-   <div class="content_infor_buy">
+   <form class="content_infor_buy">
     <section class="input_infor">
       <div class="title_infor">
         <span class="title_input">KHÁCH HÀNG KHAI BÁO THÔNG TIN</span>
@@ -226,18 +226,14 @@
           Điện thoại (*)
           <input type="text" name="">
         </div>
-        <div>
-          Địa chỉ (*)
-          <input type="text" name="">
-        </div>
+
 
       </div>
     </section>
-    <div>
-      <?php print_r($tinh) ?>
-    </div>
-    <section>
-      <select id="province" value="name">
+
+    <section class="content_select">
+      <select class="province" id="province" value="name">
+        <option>Chưa chọn tỉnh</option>
         <?php 
            foreach ($tinh as $key => $value) {
             
@@ -249,7 +245,7 @@
       <?php } ?>
       </select>
 
-      <select id="result2">
+      <select class="result2" id="result2">
         <option>
             Chưa chọn huyện
         </option>
@@ -258,7 +254,7 @@
         </option>
       </select>
 
-      <select>
+      <select class="result3" id="result3">
         <option>
           Chưa chọn xã
         </option>
@@ -274,13 +270,42 @@
     <script language="javascript">
             $('#province').change(function()
             {
-                province=$('#province').val();
-                console.log(province);
                 $.ajax({
                     url : 'http://localhost/web-ban-hang/index.php/home_user/load_auto/ajax_1',
                     type : 'get',
                     dataType : 'json',
-                    data:{'province':province},
+                    data:{province:$('#province').val()},
+                    success : function (result){
+                        var html = '';
+                        var html2 = '<option>Chưa chọn xã</option>';
+
+                        // Kết quả là một object json
+                        // Nên ta sẽ loop result
+                        $.each (result, function (key, item){
+                            html +=  '<option ';
+                            html +=  'value="';
+                            html +=  item['maqh'];
+                            html +=  '">';
+                            html +=item['name'];
+                            html +='</option>';
+                        })
+                         
+                         
+                        $('#result2').html(html);
+                        $('#result3').html(html2);
+                    }
+                });
+            });
+
+
+
+            $('#result2').change(function()
+            {
+                $.ajax({
+                    url : 'http://localhost/web-ban-hang/index.php/home_user/load_auto/ajax_2',
+                    type : 'get',
+                    dataType : 'json',
+                    data:{province:$('#result2').val()},
                     success : function (result){
                         var html = '';
 
@@ -289,14 +314,14 @@
                         $.each (result, function (key, item){
                             html +=  '<option ';
                             html +=  'value="';
-                            html +=  item['matp'];
+                            html +=  item['xaid'];
                             html +=  '">';
                             html +=item['name'];
                             html +='</option>';
                         })
                          
                          
-                        $('#result2').html(html);
+                        $('#result3').html(html);
                     }
                 });
             });
@@ -308,7 +333,7 @@
     <section class="buy_right">
       
     </section>
-   </div>
+   </form>
     </div>
 
 

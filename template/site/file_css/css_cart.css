@@ -46,3 +46,18 @@
 	color: #7a8188;
 	font-weight: bold;
 }
+
+
+
+
+
+.content_infor_buy{
+	display: flex;
+}
+.content_infor_buy .input_infor{
+	width: 70%;
+}
+
+.content_select select{
+	width: 32.60%;
+}
